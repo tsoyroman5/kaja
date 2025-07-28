@@ -1,4 +1,5 @@
-<script>
+<script lang="ts">
+	import { browser } from '$app/environment';
 	import {
 		Navbar,
 		NavBrand,
@@ -13,11 +14,23 @@
 		DropdownDivider,
 		MegaMenu
 	} from 'flowbite-svelte';
+	import { onMount } from 'svelte';
 	import { ChevronDownOutline } from 'flowbite-svelte-icons';
 	import { DarkMode } from 'flowbite-svelte';
-	import { auth } from '$lib/stores/auth';
-
+	import { derived } from 'svelte/store';
+	
 	import { page } from '$app/state';
+	import * as m from '$lib/paraglide/messages';
+	import { auth } from '$lib/stores/auth';
+	import { LANGUAGES } from '$lib/constants/languages';
+	import { currentLanguage, changeLanguage } from '$lib/stores/language';
+
+	// Create reactive stores for translations
+	const navbarEventsText = derived(currentLanguage, () => m.navbar_events());
+	const navbarCommunitiesText = derived(currentLanguage, () => m.navbar_communities());
+	const navbarLetsGoText = derived(currentLanguage, () => m.navbar_lets_go());
+
+	let isOpen = $state(false);
 	let activeUrl = $derived(page.url.pathname);
 
 	let menu2 = [
@@ -38,14 +51,67 @@
 			help: "Connect with third-party tools that you're already using."
 		}
 	];
+
+	function setNavbarHeightVar() {
+		if (!browser) return;
+		const navbar = document.querySelector('.navbar') as HTMLDivElement;
+		if (navbar) {
+			const height = navbar.offsetHeight;
+			// dynamically calculaet height of navbar for layout padding
+			document.documentElement.style.setProperty(
+				'--navbar-height',
+				`calc(var(--spacing) * 2.5 * 2 + ${height}px)`
+			);
+		}
+	}
+
+	function setLang(tag: 'en' | 'kr' | 'ru') {
+		if (browser) {
+			isOpen = false;
+			changeLanguage(tag);
+		}
+	}
+
+	onMount(() => {
+		setNavbarHeightVar();
+		window.addEventListener('resize', setNavbarHeightVar);
+		return () => {
+			window.removeEventListener('resize', setNavbarHeightVar);
+		};
+	});
 </script>
 
-<Navbar class="bg-surface dark:bg-surface-dark fixed">
+<Navbar class="bg-surface dark:bg-surface-dark fixed" navContainerClass="navbar">
 	<NavBrand href="/">
 		<img src="/logo.svg" class="me-3 h-6 sm:h-9" alt="Logo" />
 	</NavBrand>
 	<div class="flex items-center md:order-2">
 		<DarkMode class="text-primary-500 dark:text-primary-600 mr-4" />
+		<button
+			id="lang-select"
+			type="button"
+			class="mr-4 inline-flex cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+		>
+			<img src={$currentLanguage.flag} class="me-3 h-5 w-5" alt={$currentLanguage.name} />
+			{$currentLanguage.name}
+		</button>
+		<Dropdown
+			bind:isOpen
+			simple
+			class="cursor-pointer"
+			placement="bottom"
+			triggeredBy="#lang-select"
+		>
+			{#each Object.values(LANGUAGES) as lang}
+				<DropdownItem onclick={() => setLang(lang.tag)}>
+					<div class="inline-flex items-center">
+						<img src={lang.flag} class="me-3 h-5 w-5" alt="{lang.tag}-flag" />
+						{lang.name}
+					</div>
+				</DropdownItem>
+			{/each}
+		</Dropdown>
+
 		<Avatar id="avatar-menu" src="/user.svg" />
 		<NavHamburger />
 	</div>
@@ -53,7 +119,6 @@
 		<DropdownHeader>
 			<span class="block text-sm">{$auth.user?.name || 'Гость'}</span>
 			<DropdownDivider />
-
 			<!-- <span class="block truncate text-sm font-medium">{$auth.user?.email || 'Not signed in'}</span> -->
 		</DropdownHeader>
 		{#if $auth.isAuthenticated}
@@ -75,10 +140,10 @@
 		{/if}
 	</Dropdown>
 	<NavUl>
-		<NavLi href="/" class="nav-item">Главная</NavLi>
-		<NavLi class="cursor-pointer">
-			Mega menu
-            <ChevronDownOutline class="text-primary-800 ms-1 inline dark:text-white" />
+		<NavLi href="/" class="nav-item">{$navbarEventsText}</NavLi>
+		<NavLi class="nav-item cursor-pointer">
+			{$navbarCommunitiesText}
+			<ChevronDownOutline class="nav-item ms-1 inline" />
 		</NavLi>
 		<MegaMenu full items={menu2}>
 			{#snippet children({ item })}
@@ -88,9 +153,7 @@
 				</a>
 			{/snippet}
 		</MegaMenu>
-		<NavLi href="/about" class="nav-item">О нас</NavLi>
-		<NavLi href="/pricing" class="nav-item">Цены</NavLi>
-		<NavLi href="/contact" class="nav-item">Контакты</NavLi>
+		<NavLi href="/about" class="nav-item">{$navbarLetsGoText}</NavLi>
 	</NavUl>
 </Navbar>
 

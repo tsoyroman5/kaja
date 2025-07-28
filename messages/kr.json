@@ -1,0 +1,7 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+
+	"navbar_events": "이벤트",
+	"navbar_communities": "커뮤니티",
+    "navbar_lets_go": "가자!"
+}
