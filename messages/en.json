@@ -1,7 +1,16 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-    
+
 	"navbar_events": "Events",
 	"navbar_communities": "Communities",
-    "navbar_lets_go": "Let's go!"
+	"navbar_lets_go": "Let's go!",
+	"sign_in": "Sign in",
+	"sign_in_hero_header": "Find your people. Find your place.",
+	"sign_in_hero_subheader": "From spontaneous park walks to big concerts, your next adventure is already waiting.",
+	"sign_up": "Sign up",
+	"email": "Email",
+	"password": "Password",
+	"remember_me": "Remember me",
+	"forgot_password": "Forgot password?",
+	"no_account_yet": "Don't have an account yet?"
 }
