@@ -3,5 +3,14 @@
 
 	"navbar_events": "이벤트",
 	"navbar_communities": "커뮤니티",
-    "navbar_lets_go": "가자!"
+	"navbar_lets_go": "가자!",
+	"sign_in": "로그인",
+	"sign_in_hero_header": "당신의 사람들을 찾아보세요. 당신의 장소를 찾아보세요.",
+	"sign_in_hero_subheader": "즉흥적인 공원 산책부터 대규모 콘서트까지, 당신의 다음 모험이 이미 기다리고 있습니다.",
+	"sign_up": "회원가입",
+	"email": "이메일",
+	"password": "비밀번호",
+	"remember_me": "로그인 상태 유지",
+	"forgot_password": "비밀번호를 잊으셨나요?",
+	"no_account_yet": "아직 계정이 없으신가요?"
 }

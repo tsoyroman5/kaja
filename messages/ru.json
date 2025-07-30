@@ -3,5 +3,14 @@
 
 	"navbar_events": "События",
 	"navbar_communities": "Сообщества",
-    "navbar_lets_go": "Пошли!"
+	"navbar_lets_go": "Пошли!",
+	"sign_in": "Войти",
+	"sign_in_hero_header": "Найди своих. Найди своё место.",
+	"sign_in_hero_subheader": "От спонтанных прогулок в парке до больших концертов — ваше следующее приключение уже ждёт.",
+	"sign_up": "Зарегистрироваться",
+	"email": "Электронная почта",
+	"password": "Пароль",
+	"remember_me": "Запомнить меня",
+	"forgot_password": "Забыли пароль?",
+	"no_account_yet": "Нет аккаунта?"
 }

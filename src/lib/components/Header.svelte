@@ -20,10 +20,10 @@
 	import { derived } from 'svelte/store';
 	
 	import { page } from '$app/state';
-	import * as m from '$lib/paraglide/messages';
 	import { auth } from '$lib/stores/auth';
 	import { LANGUAGES } from '$lib/constants/languages';
 	import { currentLanguage, changeLanguage } from '$lib/stores/language';
+	import * as m from '$lib/paraglide/messages';
 
 	// Create reactive stores for translations
 	const navbarEventsText = derived(currentLanguage, () => m.navbar_events());
@@ -135,8 +135,8 @@
 				</button>
 			</div>
 		{:else}
-			<DropdownItem href="/login">Войти</DropdownItem>
-			<DropdownItem href="/register">Зарегистрироваться</DropdownItem>
+			<DropdownItem href="/auth/sign-in">Войти</DropdownItem>
+			<DropdownItem href="/auth/sign-up">Зарегистрироваться</DropdownItem>
 		{/if}
 	</Dropdown>
 	<NavUl>
