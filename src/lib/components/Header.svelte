@@ -18,7 +18,7 @@
 	import { ChevronDownOutline } from 'flowbite-svelte-icons';
 	import { DarkMode } from 'flowbite-svelte';
 	import { derived } from 'svelte/store';
-	
+
 	import { page } from '$app/state';
 	import { auth } from '$lib/stores/auth';
 	import { LANGUAGES } from '$lib/constants/languages';
@@ -30,7 +30,8 @@
 	const navbarCommunitiesText = derived(currentLanguage, () => m.navbar_communities());
 	const navbarLetsGoText = derived(currentLanguage, () => m.navbar_lets_go());
 
-	let isOpen = $state(false);
+	let isLangOpen = $state(false);
+	let isUserMenuOpen = $state(false);
 	let activeUrl = $derived(page.url.pathname);
 
 	let menu2 = [
@@ -67,7 +68,7 @@
 
 	function setLang(tag: 'en' | 'kr' | 'ru') {
 		if (browser) {
-			isOpen = false;
+			isLangOpen = false;
 			changeLanguage(tag);
 		}
 	}
@@ -96,7 +97,7 @@
 			{$currentLanguage.name}
 		</button>
 		<Dropdown
-			bind:isOpen
+			bind:isOpen={isLangOpen}
 			simple
 			class="cursor-pointer"
 			placement="bottom"
@@ -115,7 +116,14 @@
 		<Avatar id="avatar-menu" src="/user.svg" />
 		<NavHamburger />
 	</div>
-	<Dropdown simple {activeUrl} class="cursor-pointer" placement="bottom" triggeredBy="#avatar-menu">
+	<Dropdown
+		bind:isOpen={isUserMenuOpen}
+		simple
+		{activeUrl}
+		class="cursor-pointer"
+		placement="bottom"
+		triggeredBy="#avatar-menu"
+	>
 		<DropdownHeader>
 			<span class="block text-sm">{$auth.user?.name || 'Гость'}</span>
 			<DropdownDivider />
@@ -123,8 +131,8 @@
 		</DropdownHeader>
 		{#if $auth.isAuthenticated}
 			<DropdownGroup>
-				<DropdownItem>Панель управления</DropdownItem>
-				<DropdownItem>Настройки</DropdownItem>
+				<DropdownItem onclick={() => (isUserMenuOpen = false)}>Панель управления</DropdownItem>
+				<DropdownItem onclick={() => (isUserMenuOpen = false)}>Настройки</DropdownItem>
 			</DropdownGroup>
 			<div class="px-4 py-2">
 				<button
@@ -135,8 +143,12 @@
 				</button>
 			</div>
 		{:else}
-			<DropdownItem href="/auth/sign-in">Войти</DropdownItem>
-			<DropdownItem href="/auth/sign-up">Зарегистрироваться</DropdownItem>
+			<DropdownItem href="/auth/sign-in" onclick={() => (isUserMenuOpen = false)}
+				>Войти</DropdownItem
+			>
+			<DropdownItem href="/auth/sign-up" onclick={() => (isUserMenuOpen = false)}
+				>Зарегистрироваться</DropdownItem
+			>
 		{/if}
 	</Dropdown>
 	<NavUl>
