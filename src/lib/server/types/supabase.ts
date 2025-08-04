@@ -50,9 +50,9 @@ export type Database = {
           is_phone_verified: boolean
           last_login_at: string
           last_name: string
-          password_hash: string | null
           phone_number: string | null
           profile_image_url: string | null
+          provider: string
           updated_at: string
         }
         Insert: {
@@ -64,9 +64,9 @@ export type Database = {
           is_phone_verified?: boolean
           last_login_at?: string
           last_name?: string
-          password_hash?: string | null
           phone_number?: string | null
           profile_image_url?: string | null
+          provider?: string
           updated_at?: string
         }
         Update: {
@@ -78,9 +78,9 @@ export type Database = {
           is_phone_verified?: boolean
           last_login_at?: string
           last_name?: string
-          password_hash?: string | null
           phone_number?: string | null
           profile_image_url?: string | null
+          provider?: string
           updated_at?: string
         }
         Relationships: []
