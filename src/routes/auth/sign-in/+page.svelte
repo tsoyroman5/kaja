@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Checkbox, Label, Input } from 'flowbite-svelte';
+	import { Button, Checkbox, Label, Input, FloatingLabelInput, Helper } from 'flowbite-svelte';
 	import { Section, Register, HeroHeader } from 'flowbite-svelte-blocks';
 	import { ArrowRightOutline } from 'flowbite-svelte-icons';
 	import { derived } from 'svelte/store';
@@ -8,6 +8,7 @@
 	import ImgWithAttribution from '$lib/components/ImgWithAttribution.svelte';
 	import * as m from '$lib/paraglide/messages';
 
+	const imgSrc = '/images/community.svg';
 	// Reactive store for translations
 	const heroSectionHeaderText = derived(currentLanguage, () => m.sign_in_hero_header());
 	const heroSectionSubHeaderText = derived(currentLanguage, () => m.sign_in_hero_subheader());
@@ -20,9 +21,9 @@
 	const signInText = derived(currentLanguage, () => m.sign_in());
 </script>
 
-<Section name="heroVisual" class="dark:bg-surface-dark">
+<Section name="heroVisual" class="dark:bg-surface-dark" sectionClass="lg:py-0 lg:[&>*:first-child]:py-0">
 	<div class="mr-auto ml-auto place-self-center lg:col-span-7">
-		<ImgWithAttribution src="/images/community.svg" />
+		<ImgWithAttribution src={imgSrc} />
 
 		<HeroHeader
 			h1Class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white"
@@ -48,14 +49,45 @@
 				<div class="w-100 space-y-4 p-6 sm:p-8 md:space-y-6">
 					<form class="flex flex-col space-y-6" action="/">
 						<h3 class="p-0 text-xl font-medium text-gray-900 dark:text-white">{$signInText}</h3>
-						<Label class="space-y-2">
-							<span>{$emailText}</span>
-							<Input type="email" name="email" placeholder="example@domain.com" required />
-						</Label>
-						<Label class="space-y-2">
-							<span>{$passwordText}</span>
-							<Input type="password" name="password" placeholder="•••••" required />
-						</Label>
+						<FloatingLabelInput
+							variant="outlined"
+							id="floating_outlined"
+							name="floating_outlined"
+							type="email"
+							required>{$emailText}</FloatingLabelInput
+						>
+						<FloatingLabelInput
+							color="red"
+							variant="outlined"
+							id="outlined_error"
+							aria-describedby="outlined_error_help"
+							name="outlined_success"
+							type="email">Outlined error</FloatingLabelInput
+						>
+						<Helper color="red">
+							<span class="font-medium">Oh, snapp!</span>
+							Some error message.
+						</Helper>
+						<FloatingLabelInput
+							variant="outlined"
+							id="floating_outlined"
+							name="floating_outlined"
+							type="password"
+							required>{$passwordText}</FloatingLabelInput
+						>
+						<FloatingLabelInput
+							color="red"
+							variant="outlined"
+							id="outlined_error"
+							aria-describedby="outlined_error_help"
+							name="outlined_success"
+							type="passoword">Outlined error</FloatingLabelInput
+						>
+						<Helper color="red">
+							<span class="font-medium">Oh, snapp!</span>
+							Some error message.
+						</Helper>
+
 						<div class="flex items-start">
 							<!-- TODO: add redirection links -->
 							<Checkbox>{$rememberMeText}</Checkbox>

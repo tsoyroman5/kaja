@@ -20,7 +20,7 @@
         {alt}
         class="h-[{height}] w-[{width}] mx-auto"
     />
-    <div class="absolute right-2 -bottom-4 rounded px-1 py-1 text-right text-xs text-text-primary dark:text-text-primary-dark">
+    <div class="absolute right-2 -bottom-5 rounded px-1 py-1 text-right text-xs text-text-primary dark:text-text-primary-dark">
         {attribution}
         <a href={attributionLink} class="text-primary-600" target="_blank" rel="noopener noreferrer">{attributionText}</a>
     </div>

@@ -12,5 +12,20 @@
 	"password": "Пароль",
 	"remember_me": "Запомнить меня",
 	"forgot_password": "Забыли пароль?",
-	"no_account_yet": "Нет аккаунта?"
+	"no_account_yet": "Нет аккаунта?",
+	"sign_up_hero_header": "Ваше следующее приключение начинается здесь.",
+	"sign_up_hero_subheader": "Вас ждут новые знакомства и яркие события. Давайте начнём!",
+	"sign_up_create_account": "Создать аккаунт",
+	"sign_up_first_name": "Имя",
+	"sign_up_last_name": "Фамилия",
+	"sign_up_your_email": "Ваша электронная почта",
+	"sign_up_your_password": "Ваш пароль",
+	"sign_up_confirm_password": "Подтвердите пароль",
+	"sign_up_i_accept_terms_and_conditions": "Я принимаю <a class=\"text-primary-600 dark:text-primary-500 font-medium hover:underline\" href=\"/\" >Условия и положения</a>",
+	"sign_up_already_have_account": "Уже есть аккаунт?",
+	"sign_up_passwords_do_not_match": "Пароли не совпадают",
+	"sign_up_invalid_email_error": "Недействительный адрес электронной почты.",
+	"sign_up_user_already_exists_error": "Пользователь уже существует.",
+	"sign_up_unknown_error": "Произошла неизвестная ошибка.",
+	"sign_up_invalided_password_error": "Пароль должен содержать минимум 8 символов, включая заглавные буквы, цифры и специальные символы."
 }

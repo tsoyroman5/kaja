@@ -12,5 +12,20 @@
 	"password": "비밀번호",
 	"remember_me": "로그인 상태 유지",
 	"forgot_password": "비밀번호를 잊으셨나요?",
-	"no_account_yet": "아직 계정이 없으신가요?"
+	"no_account_yet": "아직 계정이 없으신가요?",
+	"sign_up_hero_header": "당신의 다음 모험은 여기서 시작됩니다.",
+	"sign_up_hero_subheader": "새로운 연결과 흥미진진한 이벤트가 당신을 기다리고 있습니다. 시작해봅시다!",
+	"sign_up_create_account": "계정 만들기",
+	"sign_up_first_name": "이름",
+	"sign_up_last_name": "성",
+	"sign_up_your_email": "당신의 이메일",
+	"sign_up_your_password": "당신의 비밀번호",
+	"sign_up_confirm_password": "비밀번호 확인",
+	"sign_up_i_accept_terms_and_conditions": "이용 약관에 동의합니다. <a class=\"text-primary-600 dark:text-primary-500 font-medium hover:underline\" href=\"/\" >이용 약관</a>",
+	"sign_up_already_have_account": "이미 계정이 있으신가요?",
+	"sign_up_passwords_do_not_match": "비밀번호가 일치하지 않습니다.",
+	"sign_up_invalid_email_error": "유효하지 않은 이메일 주소입니다.",
+	"sign_up_user_already_exists_error": "사용자가 이미 존재합니다.",
+	"sign_up_unknown_error": "알 수 없는 오류가 발생했습니다.",
+	"sign_up_invalided_password_error": "비밀번호는 최소 8자 이상이어야 하며, 대문자, 숫자 및 특수 기호를 포함해야 합니다."
 }

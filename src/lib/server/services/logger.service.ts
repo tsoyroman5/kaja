@@ -1,3 +1,4 @@
+import { AXIOM_API_TOKEN, AXIOM_DATASET } from '$env/static/private';
 import pino from 'pino';
 
 const loggerInstance = pino(
@@ -5,8 +6,8 @@ const loggerInstance = pino(
     pino.transport({
         target: '@axiomhq/pino',
         options: {
-            token: process.env.AXIOM_API_TOKEN,
-            dataset: process.env.AXIOM_DATASET
+            token: AXIOM_API_TOKEN,
+            dataset: AXIOM_DATASET
         }
     })
 );

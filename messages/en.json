@@ -12,5 +12,20 @@
 	"password": "Password",
 	"remember_me": "Remember me",
 	"forgot_password": "Forgot password?",
-	"no_account_yet": "Don't have an account yet?"
+	"no_account_yet": "Don't have an account yet?",
+	"sign_up_hero_header": "Your next adventure starts here.",
+	"sign_up_hero_subheader": "New connections and exciting events await you. Let's begin!",
+	"sign_up_create_account": "Create account",
+	"sign_up_first_name": "First name",
+	"sign_up_last_name": "Last name",
+	"sign_up_your_email": "Your email",
+	"sign_up_your_password": "Your password",
+	"sign_up_confirm_password": "Confirm password",
+	"sign_up_i_accept_terms_and_conditions": "I accept the <a class=\"text-primary-600 dark:text-primary-500 font-medium hover:underline\" href=\"/\" > Terms and Conditions</a>",
+	"sign_up_already_have_account": "Already have an account?",
+	"sign_up_passwords_do_not_match": "Passwords do not match",
+	"sign_up_invalid_email_error": "Invalid email address.",
+	"sign_up_user_already_exists_error": "User already exists.",
+	"sign_up_unknown_error": "An unknown error occurred.",
+	"sign_up_invalided_password_error": "Password must contain at least 8 characters, including uppercase letters, digits, and special symbols."
 }
