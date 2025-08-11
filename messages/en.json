@@ -7,12 +7,12 @@
 	"sign_in": "Sign in",
 	"sign_in_hero_header": "Find your people. Find your place.",
 	"sign_in_hero_subheader": "From spontaneous park walks to big concerts, your next adventure is already waiting.",
+	"sign_in_invalid_credentials_error": "Invalid email or password.",
+	"sign_in_user_not_found_error": "User not found.",
 	"sign_up": "Sign up",
 	"email": "Email",
 	"password": "Password",
-	"remember_me": "Remember me",
 	"forgot_password": "Forgot password?",
-	"no_account_yet": "Don't have an account yet?",
 	"sign_up_hero_header": "Your next adventure starts here.",
 	"sign_up_hero_subheader": "New connections and exciting events await you. Let's begin!",
 	"sign_up_create_account": "Create account",
@@ -26,6 +26,6 @@
 	"sign_up_passwords_do_not_match": "Passwords do not match",
 	"sign_up_invalid_email_error": "Invalid email address.",
 	"sign_up_user_already_exists_error": "User already exists.",
-	"sign_up_unknown_error": "An unknown error occurred.",
-	"sign_up_invalided_password_error": "Password must contain at least 8 characters, including uppercase letters, digits, and special symbols."
+	"sign_up_invalided_password_error": "Password must contain at least 8 characters, including uppercase letters, digits, and special symbols.",
+	"unknown_error": "An unknown error occurred."
 }

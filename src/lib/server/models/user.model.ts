@@ -1,5 +1,4 @@
-import type { Database } from '$lib/server/types/supabase';
-type UserRow = Database['public']['Tables']['users']['Row'];
+import type { UserRow } from "$lib/server/repositories/user.repository";
 
 export class User {
 	id: string;

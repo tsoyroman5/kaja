@@ -1,47 +1,74 @@
+import type { User } from '$lib/server/models/user.model';
 import { writable } from 'svelte/store';
-
-export interface User {
-    id: string;
-    email: string;
-    name: string;
-    avatar?: string;
-    role?: string;
-}
+import { browser } from '$app/environment';
+import { supabase } from '$lib/supabaseClient';
 
 export interface AuthState {
-    user: User | null;
-    isAuthenticated: boolean;
-    loading: boolean;
+	isAuthenticated: boolean;
+	isVerified: boolean;
+	user: User | null;
 }
 
 function createAuthStore() {
-    const { subscribe, set, update } = writable<AuthState>({
-        user: null,
-        isAuthenticated: false,
-        loading: true
-    });
+	const store = writable<AuthState>({
+		isAuthenticated: false,
+		isVerified: false,
+		user: null
+	});
 
-    return {
-        subscribe,
-        login: (userData: User) => set({ 
-            user: userData, 
-            isAuthenticated: true, 
-            loading: false 
-        }),
-        logout: () => set({ 
-            user: null, 
-            isAuthenticated: false, 
-            loading: false 
-        }),
-        setLoading: (loading: boolean) => update(state => ({ 
-            ...state, 
-            loading 
-        })),
-        updateUser: (userData: Partial<User>) => update(state => ({
-            ...state,
-            user: state.user ? { ...state.user, ...userData } : null
-        }))
-    };
+	if (browser) {
+		supabase.auth.onAuthStateChange(async (event, session) => {
+			console.log('Auth state changed:', event, session);
+			switch (event) {
+				case 'INITIAL_SESSION':
+				case 'SIGNED_IN':
+				case 'USER_UPDATED':
+					break;
+				case 'PASSWORD_RECOVERY':
+				case 'SIGNED_OUT':
+					store.set({
+						isAuthenticated: false,
+						user: null,
+						isVerified: false
+					});
+					break;
+				case 'TOKEN_REFRESHED':
+				case 'MFA_CHALLENGE_VERIFIED':
+					break;
+			}
+			if (session?.user) {
+				const response = await fetch(`/api/users/${session.user.id}`, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				});
+
+				if (response.ok) {
+					const user = (await response.json()) as User;
+					store.set({
+						isAuthenticated: true,
+						user,
+						isVerified: user.isPhoneVerified // or your logic
+					});
+				} else {
+					store.set({
+						isAuthenticated: false,
+						user: null,
+						isVerified: false
+					});
+				}
+			} else {
+				store.set({
+					isAuthenticated: false,
+					user: null,
+					isVerified: false
+				});
+			}
+		});
+	}
+
+	return store;
 }
 
-export const auth = createAuthStore();
+export const authStore = createAuthStore();

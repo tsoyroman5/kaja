@@ -5,7 +5,7 @@
 	import type { PageProps } from './$types';
 
 	import ImgWithAttribution from '$lib/components/ImgWithAttribution.svelte';
-	import { signUpTranslations } from '$lib/translations';
+	import { signInTranslations, signUpTranslations } from '$lib/translations';
 
 	const imgSrc = '/images/community1.svg';
 	const passwordPattern =
@@ -44,7 +44,7 @@
 
 <Section
 	name="heroVisual"
-	class="dark:bg-surface-dark"
+	class="dark:bg-surface-dark h-full"
 	sectionClass="lg:py-0 lg:[&>*:first-child]:py-0"
 >
 	<div class="mr-auto ml-auto place-self-center lg:col-span-7">
@@ -101,8 +101,6 @@
 								<span class="font-medium">
 									{#if form.error === 'email_address_invalid'}
 										{$signUpTranslations.invalidEmailError}
-									{:else if form.error === 'email_exists' || form.error === 'user_already_exists'}
-										{$signUpTranslations.userExistsError}
 									{:else}
 										{$signUpTranslations.unknownError}
 									{/if}
@@ -160,7 +158,7 @@
 							{#if isProcessing}
 								<Spinner class="me-3" size="4" color="primary" />
 							{/if}
-							{$signUpTranslations.submitButton}
+							{$signUpTranslations.signUp}
 						</Button>
 
 						<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
@@ -168,7 +166,7 @@
 							<a
 								href="/auth/sign-in"
 								class="text-primary-600 dark:text-primary-500 font-medium hover:underline"
-								>Sign In</a
+								>{$signInTranslations.signIn}</a
 							>
 						</div>
 					</form>

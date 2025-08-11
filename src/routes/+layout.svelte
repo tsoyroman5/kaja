@@ -11,7 +11,7 @@
 <ParaglideJS {i18n}>
 	<Header />
 
-	<main style="padding-top: var(--navbar-height);">
+	<main class="pt-[var(--navbar-height)] h-full">
 		{@render children()}
 		<Toast />
 	</main>

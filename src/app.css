@@ -57,6 +57,11 @@
 
 @layer base {
 
+    html, body, #svelte, #app {
+        height: 100%;
+        min-height: 100vh;
+    }
+
     /* disable chrome cancel button */
     input[type="search"]::-webkit-search-cancel-button {
         display: none;

@@ -12,7 +12,8 @@
 		DropdownHeader,
 		DropdownGroup,
 		DropdownDivider,
-		MegaMenu
+		MegaMenu,
+		Button
 	} from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import { ChevronDownOutline } from 'flowbite-svelte-icons';
@@ -20,17 +21,18 @@
 	import { derived } from 'svelte/store';
 
 	import { page } from '$app/state';
-	import { auth } from '$lib/stores/auth';
-	import { LANGUAGES } from '$lib/constants/languages';
-	import { currentLanguage, changeLanguage } from '$lib/stores/language';
+	import { authStore } from '$lib/stores/auth';
+	import { currentLanguage } from '$lib/stores/language';
 	import * as m from '$lib/paraglide/messages';
+	import LangSelectDropdown from './LangSelectDropdown.svelte';
+	import { signInTranslations, signUpTranslations } from '$lib/translations';
+	import { authService } from '$lib/services/auth.service';
 
 	// Create reactive stores for translations
 	const navbarEventsText = derived(currentLanguage, () => m.navbar_events());
 	const navbarCommunitiesText = derived(currentLanguage, () => m.navbar_communities());
 	const navbarLetsGoText = derived(currentLanguage, () => m.navbar_lets_go());
 
-	let isLangOpen = $state(false);
 	let isUserMenuOpen = $state(false);
 	let activeUrl = $derived(page.url.pathname);
 
@@ -66,13 +68,6 @@
 		}
 	}
 
-	function setLang(tag: 'en' | 'kr' | 'ru') {
-		if (browser) {
-			isLangOpen = false;
-			changeLanguage(tag);
-		}
-	}
-
 	onMount(() => {
 		setNavbarHeightVar();
 		window.addEventListener('resize', setNavbarHeightVar);
@@ -80,9 +75,77 @@
 			window.removeEventListener('resize', setNavbarHeightVar);
 		};
 	});
+
+	async function signOut() {
+		isUserMenuOpen = false;
+		await authService.signOut();
+	}
 </script>
 
-<Navbar class="bg-surface dark:bg-surface-dark fixed" navContainerClass="navbar">
+<header>
+	<Navbar class="bg-surface dark:bg-surface-dark fixed" navContainerClass="navbar">
+		<NavBrand href="/">
+			<img src="/logo.svg" class="me-3 h-6 sm:h-9" alt="Logo" />
+		</NavBrand>
+		<div class="flex items-center lg:order-2">
+			{#if $authStore.isAuthenticated}
+				<Avatar id="avatar-menu" src="/user.svg" />
+				<Dropdown
+					bind:isOpen={isUserMenuOpen}
+					simple
+					{activeUrl}
+					class="cursor-pointer"
+					placement="bottom"
+					triggeredBy="#avatar-menu"
+				>
+					<DropdownHeader>
+						<span class="block text-sm">{$authStore.user?.initials || 'Гость'}</span>
+						<DropdownDivider />
+					</DropdownHeader>
+
+					<DropdownGroup>
+						<DropdownItem onclick={() => (isUserMenuOpen = false)}>Панель управления</DropdownItem>
+						<DropdownItem onclick={() => (isUserMenuOpen = false)}>Настройки</DropdownItem>
+						<DropdownDivider />
+						<DropdownItem onclick={signOut}>Выйти</DropdownItem>
+					</DropdownGroup>
+				</Dropdown>
+			{:else}
+				<DarkMode class="text-primary-500 dark:text-primary-600 mr-4" />
+				<LangSelectDropdown />
+				<a href="/auth/sign-up">
+					<Button type="submit" class="bg-primary-600 hover:bg-primary-700 w-full cursor-pointer">
+						{$signUpTranslations.signUp}
+					</Button>
+				</a>
+				<a href="/auth/sign-in">
+					<Button type="submit" class="bg-primary-400 hover:bg-primary-500 ml-2 cursor-pointer">
+						{$signInTranslations.signIn}
+					</Button>
+				</a>
+			{/if}
+			<NavHamburger />
+		</div>
+		<NavUl>
+			<NavLi href="/" class="nav-item">{$navbarEventsText}</NavLi>
+			<NavLi class="nav-item cursor-pointer">
+				{$navbarCommunitiesText}
+				<ChevronDownOutline class="nav-item ms-1 inline" />
+			</NavLi>
+			<MegaMenu full items={menu2}>
+				{#snippet children({ item })}
+					<a href="/" class="block h-full rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-700">
+						<div class="font-semibold dark:text-white">{item.name}</div>
+						<span class="text-sm font-light text-gray-500 dark:text-gray-400">{item.help}</span>
+					</a>
+				{/snippet}
+			</MegaMenu>
+			<NavLi href="/about" class="nav-item">{$navbarLetsGoText}</NavLi>
+		</NavUl>
+	</Navbar>
+</header>
+
+<!-- <Navbar class="bg-surface dark:bg-surface-dark fixed" navContainerClass="navbar">
 	<NavBrand href="/">
 		<img src="/logo.svg" class="me-3 h-6 sm:h-9" alt="Logo" />
 	</NavBrand>
@@ -96,22 +159,6 @@
 			<img src={$currentLanguage.flag} class="me-3 h-5 w-5" alt={$currentLanguage.name} />
 			{$currentLanguage.name}
 		</button>
-		<Dropdown
-			bind:isOpen={isLangOpen}
-			simple
-			class="cursor-pointer"
-			placement="bottom"
-			triggeredBy="#lang-select"
-		>
-			{#each Object.values(LANGUAGES) as lang}
-				<DropdownItem onclick={() => setLang(lang.tag)}>
-					<div class="inline-flex items-center">
-						<img src={lang.flag} class="me-3 h-5 w-5" alt="{lang.tag}-flag" />
-						{lang.name}
-					</div>
-				</DropdownItem>
-			{/each}
-		</Dropdown>
 
 		<Avatar id="avatar-menu" src="/user.svg" />
 		<NavHamburger />
@@ -125,11 +172,10 @@
 		triggeredBy="#avatar-menu"
 	>
 		<DropdownHeader>
-			<span class="block text-sm">{$auth.user?.name || 'Гость'}</span>
+			<span class="block text-sm">{$authStore.user?.initials || 'Гость'}</span>
 			<DropdownDivider />
-			<!-- <span class="block truncate text-sm font-medium">{$auth.user?.email || 'Not signed in'}</span> -->
 		</DropdownHeader>
-		{#if $auth.isAuthenticated}
+		{#if $authStore.isAuthenticated}
 			<DropdownGroup>
 				<DropdownItem onclick={() => (isUserMenuOpen = false)}>Панель управления</DropdownItem>
 				<DropdownItem onclick={() => (isUserMenuOpen = false)}>Настройки</DropdownItem>
@@ -137,7 +183,7 @@
 			<div class="px-4 py-2">
 				<button
 					class="w-full rounded px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600"
-					onclick={() => auth.logout()}
+					onclick={() => authStore.set({ isAuthenticated: false, user: null, isVerified: false })}
 				>
 					Выйти
 				</button>
@@ -167,7 +213,7 @@
 		</MegaMenu>
 		<NavLi href="/about" class="nav-item">{$navbarLetsGoText}</NavLi>
 	</NavUl>
-</Navbar>
+</Navbar> -->
 
 <style>
 	:global(.nav-item:hover) {
